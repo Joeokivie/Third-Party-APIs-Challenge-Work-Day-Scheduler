@@ -1,9 +1,8 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-let currentHour = dayjs().format("HH"); //hour of the day
-const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]; //had to change my hours after 12 to military time so class condition statement could work correctly
-var currentDay = $("#currentDay");
+let currentHour = dayjs().format("HH"); 
+const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]
 var timeBlock = $(".time-block");
 var hour9 = $("#hour9");
 var hour10 = $("#hour10");
