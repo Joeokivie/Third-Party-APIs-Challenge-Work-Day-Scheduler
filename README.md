@@ -22,3 +22,9 @@ THEN the saved events persist
 
 # Mock-Up
 ![image](https://github.com/Joeokivie/Third-Party-APIs-Challenge-Work-Day-Scheduler/assets/138530272/f6171b1b-fdc2-4a1e-897b-d25ec431c74c)
+
+# Screenshot
+<img width="1512" alt="Screenshot 2023-08-24 at 11 31 29 PM" src="https://github.com/Joeokivie/Third-Party-APIs-Challenge-Work-Day-Scheduler/assets/138530272/0ef6c350-feca-4ebb-92cc-3c7b7fa36c8a">
+
+# Deployment 
+https://joeokivie.github.io/Third-Party-APIs-Challenge-Work-Day-Scheduler/
