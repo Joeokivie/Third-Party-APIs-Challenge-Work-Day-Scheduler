@@ -1,8 +1,9 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-let currentHour = dayjs().format("HH"); 
-const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]
+var currentHour = dayjs().format("HH"); //hour of the day
+const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]; //had to change my hours after 12 to military time so class condition statement could work correctly
+var currentDay = $("#currentDay");
 var timeBlock = $(".time-block");
 var hour9 = $("#hour9");
 var hour10 = $("#hour10");
@@ -25,31 +26,45 @@ $(function () {
   // function? How can DOM traversal be used to get the "hour-x" id of the
   // time-block containing the button that was clicked? How might the id be
   // useful when saving the description in local storage?
-  function createTimeblock(hour) {
-    const timeblock = $("<div>").addClass("timeblock").attr("data-hour", hour);
-  
-    colorCodeTimeblock(timeblock);
-  
-    const eventDescription = getEventDescription(hour);
-    const eventInput = $("<input>")
-      .addClass("event-input")
-      .val(eventDescription);
-  
-    const saveButton = $("<button>")
-      .addClass("save-button")
-      .text("Save");
-  
-    saveButton.on("click", function () {
-      const hourId = $(this).closest(".timeblock").attr("data-hour");
-      const userInput = $(this).siblings(".event-input").val();
-      saveEvent(hourId, userInput);
-    });
-  
-    timeblock.append(eventInput, saveButton);
-  
-    return timeblock;
+  // Function to create a time block
+function createTimeblock(hour) {
+  const timeblock = $("<div>")
+    .addClass("time-block") // Changed the class to "time-block" to match your existing code
+    .attr("data-hour", hour);
+
+  colorCodeTimeblock(timeblock);
+
+  // Function to get the saved event description from local storage
+  function getEventDescription(hour) {
+    return localStorage.getItem(hour) || "";
   }
+
+  const eventDescription = getEventDescription(hour);
+
+  const eventInput = $("<textarea>") // Changed from input to textarea for a description
+    .addClass("description") // Changed the class to "description" to match your existing code
+    .val(eventDescription);
+
+  const saveButton = $("<button>")
+    .addClass("saveBtn") // Changed the class to "saveBtn" to match your existing code
+    .text("Save");
+
+  saveButton.on("click", function () {
+    const hourId = $(this).closest(".time-block").attr("data-hour");
+    const userInput = $(this).siblings(".description").val(); // Changed the selector to ".description"
+    saveEvent(hourId, userInput);
+  });
+
+  timeblock.append(eventInput, saveButton);
+
+  return timeblock;
+}
+
+
   // TODO: Add code to get any user input that was saved in localStorage and set
+  // the values of the corresponding textarea elements. HINT: How can the id
+  // attribute of each time-block be used to do this?
+ // TODO: Add code to get any user input that was saved in localStorage and set
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
  // Function to populate textarea elements with saved user input
@@ -75,30 +90,44 @@ populateSavedEvents();
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
+// Function to update time block colors based on the current hour
+// Function to update time block colors based on the current hour
+function updateBlockColors() {
+  const currentHour = parseInt(dayjs().format("HH")); // Get the current hour as an integer
 
- // Loop through each id in the timeBlockArray
-for (const id of timeBlockArray) {
-  // Compare the id with the current hour
-  if (id < currentHour) {
-    // If the id is in the past, apply the 'past' class (gray color)
-    $(`#${id}`).addClass("past");
-  } else if (id === currentHour) {
-    // If the id matches the current hour, apply the 'present' class (red color)
-    $(`#${id}`).addClass("present");
-  } else if (id > currentHour) {
-    // If the id is in the future, apply the 'future' class (green color)
-    $(`#${id}`).addClass("future");
+  timeBlock.each(function () {
+    const blockHour = parseInt($(this).attr("data-hour")); // Parse the block hour as an integer
+
+    if (blockHour < currentHour) {
+      // This time block is in the past
+      $(this).addClass("past").removeClass("present future");
+    } else if (blockHour === currentHour) {
+      // This time block is the current hour
+      $(this).addClass("present").removeClass("past future");
+    } else if (blockHour >= 13 && blockHour <= 17) {
+      // This time block is between 1 pm and 5 pm
+      $(this).addClass("future").removeClass("past present");
+    } else {
+      // This time block is in the future
+      $(this).addClass("future").removeClass("past present");
+    }
+  });
+
+  // Special case for 12 pm
+  if (currentHour === 12) {
+    $("#hour12").removeClass("past future").addClass("present");
   }
 }
 
+// Call the function to update time block colors
+updateBlockColors();
+
+
+
+
   // TODO: Add code to display the current date in the header of the page.
-// Function to display the current date in the header
-function displayCurrentDate() {
-  const currentDate = dayjs().format("dddd, MMMM D, YYYY");
-  currentDay.text(currentDate);
-}
 
-// Call the function to display the current date in the header
-displayCurrentDate();
+  let today = dayjs().format("dddd, MMM D, YYYY"); //use dayjs() and set the format to day of the week, month, day, and year
 
+  currentDay.text(today);
 });
