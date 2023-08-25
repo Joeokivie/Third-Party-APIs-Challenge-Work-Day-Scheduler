@@ -93,11 +93,10 @@ populateSavedEvents();
 // Function to update time block colors based on the current hour
 // Function to update time block colors based on the current hour
 function updateBlockColors() {
-  const currentHour = parseInt(dayjs().format("HH")); // Get the current hour as an integer
+  const blockHour = parseInt($(this).attr("id")); // Parse the block hour as an integer
 
   timeBlock.each(function () {
-    const blockHour = parseInt($(this).attr("data-hour")); // Parse the block hour as an integer
-
+    const blockHour = parseInt($(this).attr("id"));
     if (blockHour < currentHour) {
       // This time block is in the past
       $(this).addClass("past").removeClass("present future");
@@ -107,7 +106,7 @@ function updateBlockColors() {
     } else if (blockHour >= 13 && blockHour <= 17) {
       // This time block is between 1 pm and 5 pm
       $(this).addClass("future").removeClass("past present");
-    } else {
+    } else if (blockHour> currentHour){
       // This time block is in the future
       $(this).addClass("future").removeClass("past present");
     }
@@ -125,9 +124,14 @@ updateBlockColors();
 
 
 
-  // TODO: Add code to display the current date in the header of the page.
+ // Function to display the current date in the page header
+function displayCurrentDate() {
+  const formattedDate = dayjs().format("dddd, MMM D, YYYY"); // Get the current date in the specified format
 
-  let today = dayjs().format("dddd, MMM D, YYYY"); //use dayjs() and set the format to day of the week, month, day, and year
+  currentDay.text(formattedDate); // Set the formatted date in the page header
+}
 
-  currentDay.text(today);
+// Call the function to display the current date
+displayCurrentDate();
+
 });
