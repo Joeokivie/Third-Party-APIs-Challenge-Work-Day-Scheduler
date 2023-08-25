@@ -18,6 +18,8 @@ var saveBtn = $(".saveBtn");
 var Input = $(".description");
 
 console.log(currentHour);
+console.log(currentDay);
+console.log(saveBtn);
 
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
@@ -48,7 +50,7 @@ function createTimeblock(hour) {
   const saveButton = $("<button>")
     .addClass("saveBtn") // Changed the class to "saveBtn" to match your existing code
     .text("Save");
-
+  console.log(saveButton);
   saveButton.on("click", function () {
     const hourId = $(this).closest(".time-block").attr("data-hour");
     const userInput = $(this).siblings(".description").val(); // Changed the selector to ".description"
