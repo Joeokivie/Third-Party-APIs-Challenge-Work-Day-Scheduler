@@ -2,7 +2,7 @@
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
 var currentHour = dayjs().format("HH"); //hour of the day
-const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]; //had to change my hours after 12 to military time so class condition statement could work correctly
+const timeBlockArray = ["09", "10", "11", "12", "13", "14", "15", "16", "17"]; 
 var currentDay = $("#currentDay");
 var timeBlock = $(".time-block");
 var hour9 = $("#hour9");
